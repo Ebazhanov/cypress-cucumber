@@ -1,6 +1,13 @@
 {
+  "scripts": {
+    "cypress open": "cypress open"
+  },
   "devDependencies": {
     "cypress": "^8.0.0",
-    "cypress-cucumber-preprocessor": "^4.1.4"
+    "cypress-cucumber-preprocessor": "^4.1.4",
+    "prettier": "^2.3.2"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true
   }
 }
