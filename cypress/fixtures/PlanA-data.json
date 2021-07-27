@@ -1,0 +1,25 @@
+{
+  "companyInfo": {
+    "companyName": "ASD GmbH",
+    "dateFounded": "02.2001",
+    "establishmentDate": "02.2001",
+    "address": "Kurfürstendamm 180, 10707, Berlin"
+  },
+  "personalData": {
+    "salutation": "Herr",
+    "firstName": "Albert",
+    "lastName": "Einstein",
+    "dayOfBirth": "01.01.1990",
+    "nationality": "Deutschland",
+    "phoneNumber": "17476533309",
+    "email": "test@test.com",
+    "streetNumber": "7",
+    "postcode": "10781",
+    "city": "Berlin",
+    "address": "7, 10781, Berlin"
+  },
+  "creditDetails": {
+    "amount": "300,000.00 €",
+    "duration": "4 Jahre"
+  }
+}

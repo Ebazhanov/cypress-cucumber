@@ -1,88 +1,77 @@
 import {And, Given, When} from 'cypress-cucumber-preprocessor/steps';
 import {LandingPage} from '../pages/LandingPage';
 
-before(() => {
+beforeEach(() => {
     cy.login();
 });
 
 const landingPage = new LandingPage();
 
-Given(`Selected company - ASD GmbH`, () => {
-    cy.get(landingPage.getCompanyNameField()).click().type('ASD GmbH');
-    cy.get(landingPage.getCompanyASDGmbH()).click();
+Given(`prefilled Company information section {string}`, (jsonName) => {
+    cy.fixture(`${jsonName}-data.json`).then((data) => {
+        cy.get(landingPage.getCompanyNameField()).click().type(data.companyInfo.companyName);
+        cy.get(landingPage.getCompanyASDGmbH()).click();
+        cy.get(landingPage.getRevenueMoreThen50()).click();
+        cy.get(landingPage.getDateFoundedField()).type(data.companyInfo.dateFounded);
+        cy.get(landingPage.getLoanPurposeDropDown()).click();
+        cy.get(landingPage.getLoanPurposeInvestmentInFixedAssets()).click();
+        cy.get(landingPage.getLoanPurposeDropDown()).click();
+        cy.get(landingPage.getLoanPurposeInvestmentInFixedAssets()).click();
+    })
 });
 
-When(`Selects revenue with more then 50k`, () => {
-    cy.get(landingPage.getRevenueMoreThen()).click();
+And(`company representatives section {string}`, (jsonName) => {
+    cy.fixture(`${jsonName}-data.json`).then((data) => {
+        cy.get(landingPage.getRepresentativeInfoSalutationLabel()).click();
+        cy.get(landingPage.getFirstNameField()).type(data.personalData.firstName);
+        cy.get(landingPage.getLastNameField()).type(data.personalData.lastName);
+        cy.get(landingPage.getDateOfBirthdayField()).type(data.personalData.dayOfBirth);
+        cy.get(landingPage.getNationalityDropDown()).type(data.personalData.nationality);
+        cy.get(landingPage.getPhoneNumberField()).type(data.personalData.phoneNumber);
+        cy.get(landingPage.getEmailField()).type(data.personalData.email);
+        cy.get(landingPage.getStreetAndHouseNumberField()).type(data.personalData.streetNumber);
+        cy.get(landingPage.getPostcodeField()).type(data.personalData.postcode);
+        cy.get(landingPage.getCityField()).type(data.personalData.city);
+    })
 });
 
-And('Enters date founded field', () => {
-    cy.get(landingPage.getDateFoundedField()).type('02.2001');
-});
-
-And('Selects Loan purpose - Investment in Fixed Assets', () => {
-    cy.get(landingPage.getLoanPurposeDropDown()).click();
-    cy.get(landingPage.getLoanPurposeInvestmentInFixedAssets()).click();
-});
-
-And('Selects representative salutation - Herr', () => {
-    cy.get(landingPage.getRepresentativeInfoSalutationLabel()).click();
-});
-
-And('Enter First name {string} and Last Name {string}', (firstName, lastName) => {
-    cy.get(landingPage.getFirstNameField()).type(firstName);
-    cy.get(landingPage.getLastNameField()).type(lastName);
-});
-
-And('Enter Day of Birth {string}, Nationality {string} and phone number {string}', (dayOfBirth, nationality, phoneNumber) => {
-    cy.get(landingPage.getDateOfBirthdayField()).type(dayOfBirth);
-    cy.get(landingPage.getNationalityDropDown()).type(nationality);
-    cy.get(landingPage.getPhoneNumberField()).type(phoneNumber);
-});
-
-And('Enter Email {string}, Street and house number {string}, Postcode {string} and City {string}', (email, streetNumber, postcode, city) => {
-    cy.get(landingPage.getEmailField()).type(email);
-    cy.get(landingPage.getStreetAndHouseNumberField()).type(streetNumber);
-    cy.get(landingPage.getPostcodeField()).type(postcode);
-    cy.get(landingPage.getCityField()).type(city);
-});
-
-And('Clicks accept Lendico\'s terms and agree with offers ...', () => {
+And('customer accepts all checkboxes and clicks Submit button', () => {
     cy.get(landingPage.getAcceptLendicoTermsCheckbox()).click()
     cy.get(landingPage.getAgreeToOfferCheckbox()).click()
     cy.get(landingPage.getSubmitButton()).click()
 })
 
-When('Clicks on Submit button', () => {
-    cy.get(landingPage.getSubmitButton()).click()
+Then('shows validation general error message "Nicht alle Felder wurden korrekt...."', () => {
+    cy.get(landingPage.getGeneralValidationErrorMessage()).should("be.visible")
 })
 
-Then('Successfully redirected to review page with customer data', () => {
-    cy.url().should('contain', '/ready/')
+
+Then('redirects to Ready page with correctly shown data {string} entered by the customer', (jsonName) => {
+    cy.fixture(`${jsonName}-data.json`).then((data) => {
+        cy.url().should('contain', '/ready/')
+        cy.contains(data.personalData.salutation).should('be.visible')
+        cy.contains(data.personalData.firstName).should('be.visible')
+        cy.contains(data.personalData.lastName).should('be.visible')
+        cy.contains(data.personalData.dayOfBirth).should('be.visible')
+        cy.contains(data.personalData.email).should('be.visible')
+        cy.contains(data.personalData.phoneNumber).should('be.visible')
+        cy.contains(data.personalData.address).should('be.visible')
+        cy.contains(data.creditDetails.amount).should('be.visible')
+        cy.contains(data.creditDetails.duration).should('be.visible')
+        cy.contains(data.companyInfo.companyName).should('be.visible')
+        cy.contains(data.companyInfo.dateFounded).should('be.visible')
+        cy.contains(data.companyInfo.address).should('be.visible')
+    })
 })
 
-And('Display correctly Personal data: {string}, {string}, {string}, {string}, {string}, {string}, {string}', (salutation, firstName, lastName, bithDate, email, phoneNumber, address) => {
-    cy.contains(salutation).should('be.visible')
-    cy.contains(firstName).should('be.visible')
-    cy.contains(lastName).should('be.visible')
-    cy.contains(bithDate).should('be.visible')
-    cy.contains(email).should('be.visible')
-    cy.contains(phoneNumber).should('be.visible')
-    cy.contains(address).should('be.visible')
-})
 
-And('Display correctly Credit Details data: {string}, {string}', (amount, duration) => {
-    cy.contains(amount).should('be.visible')
-    cy.contains(duration).should('be.visible')
-})
-
-And('Display correctly Company information data: {string}, {string}, {string}', (companyName, establishmentDate, address) => {
-    cy.contains(companyName).should('be.visible')
-    cy.contains(establishmentDate).should('be.visible')
-    cy.contains(address).should('be.visible')
-})
-
-Given('Selected Amount {string} and Duration {string} years', (amount, duration)=>{
-    cy.get('.loan-calculator').shadow().find('div.len-text-wrapper.len-widget__column > div.len-text-input > input').click()
+Given('Selected Amount {string} and Duration {string} years', (amount, duration) => {
+    cy.fixture('example.json').then((user) => {
+        cy.get('lendico-loan-calculator[type="new"]').shadow().find('.len-text-input__element').clear().type(user.email,{ delay: 500 })
+        //cy.get('lendico-loan-calculator[type="new"]').shadow().find('.len-text-input__element').clear().type(amount, {force: true})
+        Cypress.on('uncaught:exception', (err, runnable) => {
+            return false
+        })
+    })
     cy.get(landingPage.geAmountField()).clear().type(duration)
 })

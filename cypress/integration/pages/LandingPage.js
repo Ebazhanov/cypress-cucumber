@@ -16,7 +16,7 @@ export class LandingPage {
         return `${this.rootCompanyInformation} .dropdown.company-lookup li:nth-child(7) span.company-address`;
     }
 
-    getRevenueMoreThen() {
+    getRevenueMoreThen50() {
         return `${this.rootCompanyInformation} .radio__wrapper > :nth-child(2)`;
     }
 
@@ -82,5 +82,9 @@ export class LandingPage {
 
     getSubmitButton() {
         return `${this.rootSubmitSection} [data-qa-id="submit-form-button"]`;
+    }
+
+    getGeneralValidationErrorMessage() {
+        return `${this.rootSubmitSection} .general-error-container p`;
     }
 }
