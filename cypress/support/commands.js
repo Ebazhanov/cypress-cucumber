@@ -24,6 +24,10 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+/**
+ * Browser authentication
+ */
+
 Cypress.Commands.add('login', () => {
     cy.visit('/', {
         auth: {

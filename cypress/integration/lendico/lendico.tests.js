@@ -1,4 +1,4 @@
-import {And, Given, When} from 'cypress-cucumber-preprocessor/steps';
+import {And, Given} from 'cypress-cucumber-preprocessor/steps';
 import {LandingPage} from '../pages/LandingPage';
 
 beforeEach(() => {
@@ -6,6 +6,30 @@ beforeEach(() => {
 });
 
 const landingPage = new LandingPage();
+
+Given('selected {string} for {string}', (amount, duration) => {
+    //TODO add duration
+    cy.get(landingPage.getLoanCalculatorShadow()).shadow()
+        .find(landingPage.getAmountField())
+        .clear().type(amount, {force: true})
+})
+
+When('customer clicks "Request to start" button', () => {
+    cy.get(landingPage.getLoanCalculatorShadow()).shadow()
+        .find(landingPage.getRequestToStartButton()).click()
+})
+
+Then('shows monthly rate {string} and fixed rate {string} with disabled amount field and duration dropdown', (monthlyRate, fixedRate) => {
+    //TODO add monthly rate and fixed rate
+    cy.get(landingPage.getLoanCalculatorShadow()).shadow()
+        .find(landingPage.getDisabledAmountField()).should('exist',)
+    cy.get(landingPage.getLoanCalculatorShadow()).shadow()
+        .find(landingPage.getDisabledDurationDropDown()).should('exist',)
+})
+
+Then('shows validation general error message "Nicht alle Felder wurden korrekt...."', () => {
+    cy.get(landingPage.getGeneralValidationErrorMessage()).should("be.visible")
+})
 
 Given(`prefilled Company information section {string}`, (jsonName) => {
     cy.fixture(`${jsonName}-data.json`).then((data) => {
@@ -20,7 +44,7 @@ Given(`prefilled Company information section {string}`, (jsonName) => {
     })
 });
 
-And(`company representatives section {string}`, (jsonName) => {
+And(`prefilled Personal data section {string}`, (jsonName) => {
     cy.fixture(`${jsonName}-data.json`).then((data) => {
         cy.get(landingPage.getRepresentativeInfoSalutationLabel()).click();
         cy.get(landingPage.getFirstNameField()).type(data.personalData.firstName);
@@ -41,11 +65,6 @@ And('customer accepts all checkboxes and clicks Submit button', () => {
     cy.get(landingPage.getSubmitButton()).click()
 })
 
-Then('shows validation general error message "Nicht alle Felder wurden korrekt...."', () => {
-    cy.get(landingPage.getGeneralValidationErrorMessage()).should("be.visible")
-})
-
-
 Then('redirects to Ready page with correctly shown data {string} entered by the customer', (jsonName) => {
     cy.fixture(`${jsonName}-data.json`).then((data) => {
         cy.url().should('contain', '/ready/')
@@ -62,16 +81,4 @@ Then('redirects to Ready page with correctly shown data {string} entered by the 
         cy.contains(data.companyInfo.dateFounded).should('be.visible')
         cy.contains(data.companyInfo.address).should('be.visible')
     })
-})
-
-
-Given('Selected Amount {string} and Duration {string} years', (amount, duration) => {
-    cy.fixture('example.json').then((user) => {
-        cy.get('lendico-loan-calculator[type="new"]').shadow().find('.len-text-input__element').clear().type(user.email,{ delay: 500 })
-        //cy.get('lendico-loan-calculator[type="new"]').shadow().find('.len-text-input__element').clear().type(amount, {force: true})
-        Cypress.on('uncaught:exception', (err, runnable) => {
-            return false
-        })
-    })
-    cy.get(landingPage.geAmountField()).clear().type(duration)
 })

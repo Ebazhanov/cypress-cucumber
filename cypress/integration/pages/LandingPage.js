@@ -2,10 +2,25 @@ export class LandingPage {
     rootCompanyInformation = '.company-information-container';
     rootCompanyRepresentative = '.company-representative-container';
     rootSubmitSection = '.section-form';
-    rootLoanCalculator = '.lendico-loan-calculator';
 
-    geAmountField() {
-        return `${this.rootLoanCalculator} .len-text-wrapper.len-widget__column`;
+    getLoanCalculatorShadow() {
+        return 'lendico-loan-calculator[type="new"]';
+    }
+
+    getAmountField(){
+        return '.len-text-input__element'
+    }
+
+    getDisabledAmountField(){
+        return '.len-text-input--disabled'
+    }
+
+    getDisabledDurationDropDown(){
+        return '.len-custom-select__input--disabled'
+    }
+
+    getRequestToStartButton() {
+        return '.len-button';
     }
 
     getCompanyNameField() {
