@@ -1,9 +1,14 @@
 {
+  "watchForFileChanges": false,
   "defaultCommandTimeout": 10000,
   "pageLoadTimeout": 10000,
   "responseTimeout": 10000,
   "testFiles": "**/*.feature",
-  "baseUrl": "https://lendicoqachallenge.azurewebsites.net/",
+  "baseUrl": "https://antrag.lendico.de/",
   "viewportWidth": 1740,
-  "viewportHeight": 1200
+  "viewportHeight": 1200,
+  "env": {
+    "username": "QA-CHALLENGE",
+    "password": "jooTh9me"
+  }
 }
