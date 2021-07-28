@@ -1,3 +1,7 @@
 {
-  "generalError": "Nicht alle Felder wurden korrekt ausgefüllt. Bitte überprüfen Sie Ihre Angaben."
+  "generalError": "Nicht alle Felder wurden korrekt ausgefüllt. Bitte überprüfen Sie Ihre Angaben.",
+  "companyInfo": {
+    "companyName": "ASD GmbH",
+    "dateFounded": "02.2001"
+  }
 }

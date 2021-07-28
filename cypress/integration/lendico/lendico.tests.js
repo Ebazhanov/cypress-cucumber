@@ -1,17 +1,20 @@
 import {And, Given} from 'cypress-cucumber-preprocessor/steps';
 import {LandingPage} from '../pages/LandingPage';
 
-beforeEach(() => {
-    cy.login();
-});
-
 const landingPage = new LandingPage();
 
-Given('selected {string} for {string} and clicks `Start request` button', (amount, duration) => {
-    //TODO add duration
+Given('user browser authorization', () => {
+    cy.login();
+})
+
+When('selected {string} for {string} years and clicks `Start request` button', (amount, duration) => {
+    cy.get(landingPage.getLoanCalculatorShadow()).shadow()
+        .find(landingPage.getDurationDropDown()).click()
+    cy.get(landingPage.getLoanCalculatorShadow()).shadow()
+        .find(landingPage.getCustomYearsDuration(duration)).click()
     cy.get(landingPage.getLoanCalculatorShadow()).shadow()
         .find(landingPage.getAmountField())
-        .clear().type(amount, {force: true})
+        .clear({force: true}).type(amount, {force: true})
     cy.get(landingPage.getLoanCalculatorShadow()).shadow()
         .find(landingPage.getRequestToStartButton()).click()
 })
@@ -36,8 +39,8 @@ Then('shows validation general error message "Nicht alle Felder wurden korrekt..
     cy.get(landingPage.getGeneralValidationErrorMessage()).should("be.visible")
 })
 
-Given(`prefilled Company information section {string}`, (jsonName) => {
-    cy.fixture(`${jsonName}-data.json`).then((data) => {
+And(`prefilled Company information section {string}`, (jsonFileName) => {
+    cy.fixture(`${jsonFileName}-data.json`).then((data) => {
         cy.get(landingPage.getCompanyNameField()).click().type(data.companyInfo.companyName);
         cy.get(landingPage.getCompanyASDGmbH()).click();
         cy.get(landingPage.getRevenueMoreThen50()).click();
@@ -47,8 +50,8 @@ Given(`prefilled Company information section {string}`, (jsonName) => {
     })
 });
 
-And(`prefilled Personal data section {string}`, (jsonName) => {
-    cy.fixture(`${jsonName}-data.json`).then((data) => {
+And(`prefilled Personal data section {string}`, (jsonFileName) => {
+    cy.fixture(`${jsonFileName}-data.json`).then((data) => {
         cy.get(landingPage.getRepresentativeInfoSalutationLabel()).click();
         cy.get(landingPage.getFirstNameField()).type(data.personalData.firstName);
         cy.get(landingPage.getLastNameField()).type(data.personalData.lastName);
@@ -68,8 +71,8 @@ And('customer accepts all checkboxes and clicks Submit button', () => {
     cy.get(landingPage.getSubmitButton()).click()
 })
 
-Then('redirects to Confirmation page with correctly shown data {string} entered by the customer', (jsonName) => {
-    cy.fixture(`${jsonName}-data.json`).then((data) => {
+Then('redirects to Confirmation page with correctly shown data {string} entered by the customer', (jsonFileName) => {
+    cy.fixture(`${jsonFileName}-data.json`).then((data) => {
         cy.url().should('contain', '/ready/')
         cy.contains(data.personalData.salutation).should('be.visible')
         cy.contains(data.personalData.firstName).should('be.visible')

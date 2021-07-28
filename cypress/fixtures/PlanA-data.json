@@ -2,7 +2,6 @@
   "companyInfo": {
     "companyName": "ASD GmbH",
     "dateFounded": "02.2001",
-    "establishmentDate": "02.2001",
     "address": "Kurfürstendamm 180, 10707, Berlin"
   },
   "personalData": {
@@ -20,6 +19,6 @@
   },
   "creditDetails": {
     "amount": "400,000.00 €",
-    "duration": "4 Jahre"
+    "duration": "5 Jahre"
   }
 }
