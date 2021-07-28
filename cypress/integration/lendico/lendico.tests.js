@@ -39,8 +39,6 @@ Given(`prefilled Company information section {string}`, (jsonName) => {
         cy.get(landingPage.getDateFoundedField()).type(data.companyInfo.dateFounded);
         cy.get(landingPage.getLoanPurposeDropDown()).click();
         cy.get(landingPage.getLoanPurposeInvestmentInFixedAssets()).click();
-        cy.get(landingPage.getLoanPurposeDropDown()).click();
-        cy.get(landingPage.getLoanPurposeInvestmentInFixedAssets()).click();
     })
 });
 
@@ -62,7 +60,7 @@ And(`prefilled Personal data section {string}`, (jsonName) => {
 And('customer accepts all checkboxes and clicks Submit button', () => {
     cy.get(landingPage.getAcceptLendicoTermsCheckbox()).click()
     cy.get(landingPage.getAgreeToOfferCheckbox()).click()
-    cy.get(landingPage.getSubmitButton()).click()
+    cy.get(landingPage.getSubmitButton()).wait(5000).click()
 })
 
 Then('redirects to Ready page with correctly shown data {string} entered by the customer', (jsonName) => {

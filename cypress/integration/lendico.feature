@@ -1,7 +1,7 @@
 Feature: Lendico QA Challenge
 
   Scenario: Plan A
-    Given selected '100.000' for '8 jahre'
+    Given selected '400.000' for '8 jahre'
     And prefilled Company information section 'PlanA'
     And prefilled Personal data section 'PlanA'
     When customer accepts all checkboxes and clicks Submit button
