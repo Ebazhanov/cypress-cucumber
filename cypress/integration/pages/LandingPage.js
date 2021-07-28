@@ -15,6 +15,14 @@ export class LandingPage {
         return '.len-text-input--disabled'
     }
 
+    getMonthlyRate(){
+        return '.len-widget__property-wrapper div:nth-child(2) span:nth-child(1)'
+    }
+
+    getInterestRate(){
+        return '.len-widget__property-wrapper > div:nth-child(2) > span:nth-child(2)'
+    }
+
     getDisabledDurationDropDown(){
         return '.len-custom-select__input--disabled'
     }

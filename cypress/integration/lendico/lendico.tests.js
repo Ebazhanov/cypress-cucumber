@@ -7,11 +7,13 @@ beforeEach(() => {
 
 const landingPage = new LandingPage();
 
-Given('selected {string} for {string}', (amount, duration) => {
+Given('selected {string} for {string} and clicks `Start request` button', (amount, duration) => {
     //TODO add duration
     cy.get(landingPage.getLoanCalculatorShadow()).shadow()
         .find(landingPage.getAmountField())
         .clear().type(amount, {force: true})
+    cy.get(landingPage.getLoanCalculatorShadow()).shadow()
+        .find(landingPage.getRequestToStartButton()).click()
 })
 
 When('customer clicks "Request to start" button', () => {
@@ -19,10 +21,13 @@ When('customer clicks "Request to start" button', () => {
         .find(landingPage.getRequestToStartButton()).click()
 })
 
-Then('shows monthly rate {string} and fixed rate {string} with disabled amount field and duration dropdown', (monthlyRate, fixedRate) => {
-    //TODO add monthly rate and fixed rate
+Then('shows monthly rate {string} and interest rate {string} with disabled amount field and duration dropdown', (monthlyRate, fixedRate) => {
     cy.get(landingPage.getLoanCalculatorShadow()).shadow()
-        .find(landingPage.getDisabledAmountField()).should('exist',)
+        .find(landingPage.getMonthlyRate()).should('contain.text', monthlyRate)
+    cy.get(landingPage.getLoanCalculatorShadow()).shadow()
+        .find(landingPage.getInterestRate()).should('contain.text', fixedRate)
+    cy.get(landingPage.getLoanCalculatorShadow()).shadow()
+        .find(landingPage.getDisabledAmountField()).should("exist")
     cy.get(landingPage.getLoanCalculatorShadow()).shadow()
         .find(landingPage.getDisabledDurationDropDown()).should('exist',)
 })
@@ -60,10 +65,10 @@ And(`prefilled Personal data section {string}`, (jsonName) => {
 And('customer accepts all checkboxes and clicks Submit button', () => {
     cy.get(landingPage.getAcceptLendicoTermsCheckbox()).click()
     cy.get(landingPage.getAgreeToOfferCheckbox()).click()
-    cy.get(landingPage.getSubmitButton()).wait(5000).click()
+    cy.get(landingPage.getSubmitButton()).click()
 })
 
-Then('redirects to Ready page with correctly shown data {string} entered by the customer', (jsonName) => {
+Then('redirects to Confirmation page with correctly shown data {string} entered by the customer', (jsonName) => {
     cy.fixture(`${jsonName}-data.json`).then((data) => {
         cy.url().should('contain', '/ready/')
         cy.contains(data.personalData.salutation).should('be.visible')
