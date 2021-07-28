@@ -52,3 +52,7 @@ Feature: Lendico QA Challenge
       | amount | years | monthlyRate | interestRate |
       | 10.000 | 2     | 0,00 € | 1,99 %       |
 ```
+
+### How to run the tests:
+- `$ yarn cypress:open` if you want to run feature file manually
+- `$ yarn cypress:run` will run tests automatically
