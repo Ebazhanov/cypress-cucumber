@@ -1,7 +1,7 @@
-Feature: Lendico QA Challenge
+Feature: Cucumber QA architecture
 
   Background:
-    Given user browser authorization
+    Given lets get started
 
   Scenario Outline: Plan A - apply for loan
     When selected "<amount>" for "<years>" years and clicks `Start request` button
@@ -28,7 +28,7 @@ Feature: Lendico QA Challenge
     Then shows monthly rate "<monthlyRate>" and interest rate "<interestRate>" with disabled amount field and duration dropdown
 
     Examples:
-      | amount | years | monthlyRate | interestRate |
-      | 10.000 | 2     | 0,00 € | 1,99 %       |
+      | amount  | years | monthlyRate | interestRate |
+      | 100.000 | 2     | 4.253,59 € | 1,99 %       |
 
 

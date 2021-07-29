@@ -1,4 +1,4 @@
-# QA Challange Lendico
+# Cypress + cucumber
 
 Project structure
 ----------------- 

@@ -36,3 +36,16 @@ Cypress.Commands.add('login', () => {
         },
     });
 });
+
+/**
+ * Ignore uncaught exceptions
+ * https://docs.cypress.io/api/events/catalog-of-events#App-Events
+ */
+
+Cypress.Commands.add('ignoreUncaughtException', () => {
+    Cypress.on('uncaught:exception', (err) => {
+        // returning false here prevents Cypress from
+        // failing the test
+        return false;
+    });
+});
