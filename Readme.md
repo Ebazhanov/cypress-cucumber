@@ -11,8 +11,11 @@ Cypress
     │   ├── lendico
     │   │   └── lendico.tests.js
     │   ├── pages
-    │   │   ├── LandingPage
-    │   │   └── profile
+    │   │   ├── CompanyInformationSection
+    │   │   ├── CompanyRepresentativesSection
+    │   │   ├── LoanCalculatorSection
+    │   │   ├── LoanSection
+    │   │   └── SubmitSections
     │   └── lendico.feature   
 ```
 
