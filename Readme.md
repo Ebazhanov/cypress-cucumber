@@ -22,7 +22,7 @@ Cypress
 The list of tests: 
 
 ```
-Feature: Lendico QA Challenge
+Feature: Exploring Cucumber + cypress
 
   Background:
     Given user browser authorization
