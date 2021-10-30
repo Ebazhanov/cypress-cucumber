@@ -1,7 +1,7 @@
 {
   "scripts": {
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run --browser chrome --headed"
+    "cypress:run": "cypress run --browser chrome -e TAGS='@saturday'"
   },
   "devDependencies": {
     "cypress": "^8.0.0",

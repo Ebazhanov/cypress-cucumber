@@ -14,6 +14,7 @@ Feature: Cucumber QA architecture
       | amount  | years | jsonFileName |
       | 400.000 | 5     | PlanA        |
 
+  @saturday
   Scenario Outline: Plan B 1.1 - display general validation error
     When prefilled Company information section "<jsonFileName>"
     And customer accepts all checkboxes and clicks Submit button
